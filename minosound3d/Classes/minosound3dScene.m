@@ -12,6 +12,7 @@
 #import "CC3MeshNode.h"
 #import "CC3Camera.h"
 #import "CC3Light.h"
+#import "CC3ParametricMeshNodes.h"
 
 
 @implementation minosound3dScene
@@ -56,7 +57,19 @@
 	// This is the simplest way to load a POD resource file and add the
 	// nodes to the CC3Scene, if no customized resource subclass is needed.
 	[self addContentFromPODFile: @"hello-world.pod"];
-	
+
+    CC3MeshNode* aNode;
+    aNode = [CC3BoxNode nodeWithName: @"Simple box"];
+    CC3BoundingBox bBox;
+    bBox.minimum = cc3v(  0.0, 0.0, 0.0);
+    bBox.maximum = cc3v( 2.0, 2.0, 2.0);
+    [aNode populateAsSolidBox: bBox];
+    [aNode setLocation:cc3v(-2,0,0)];
+    aNode.material = [CC3Material material];
+
+
+	[self addChild: aNode];
+
 	// Create OpenGL buffers for the vertex arrays to keep things fast and efficient, and to
 	// save memory, release the vertex content in main memory because it is now redundant.
 	[self createGLBuffers];
@@ -107,7 +120,8 @@
 	CCActionInterval* partialRot = [CC3RotateBy actionWithDuration: 1.0
 														  rotateBy: cc3v(0.0, 30.0, 0.0)];
 	[helloTxt runAction: [CCRepeatForever actionWithAction: partialRot]];
-	
+	[aNode runAction: [CCRepeatForever actionWithAction: partialRot]];
+
 	// To make things a bit more appealing, set up a repeating up/down cycle to
 	// change the color of the text from the original red to blue, and back again.
 	GLfloat tintTime = 8.0f;
