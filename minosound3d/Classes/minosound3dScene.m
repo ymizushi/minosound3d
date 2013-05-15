@@ -67,11 +67,16 @@
 	// nodes to the CC3Scene, if no customized resource subclass is needed.
 //	[self addContentFromPODFile: @"hello-world.pod"];
 
+
+    [self genTiles];
+    [self initTiles];
+
+
     CC3MeshNode* aNode;
 
-    for(int i=0;i<5;i++){
-        for(int j=0;j<5;j++){
-            for(int l=0;l<5;l++){
+    for(int i=0;i<DEPTH;i++){
+        for(int j=0;j<COLUMN;j++){
+            for(int l=0;l<ROW;l++){
                 aNode = [CC3BoxNode nodeWithName: @"Simple box"];
                 CC3BoundingBox bBox;
                 bBox.minimum = cc3v(  0.0+i*1.2, 0.0+j*1.2, 0.0+l*1.2);
@@ -157,9 +162,6 @@
 //	 CCActionInterval* tintCycle = [CCSequence actionOne: tintDown two: tintUp];
 //	[helloTxt runAction: [CCRepeatForever actionWithAction: tintCycle]];
 
-    [self genTiles];
-
-    [self initTiles];
 
 
 }
