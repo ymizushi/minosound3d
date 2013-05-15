@@ -56,20 +56,30 @@
 
 	// This is the simplest way to load a POD resource file and add the
 	// nodes to the CC3Scene, if no customized resource subclass is needed.
-	[self addContentFromPODFile: @"hello-world.pod"];
+//	[self addContentFromPODFile: @"hello-world.pod"];
 
     CC3MeshNode* aNode;
-    aNode = [CC3BoxNode nodeWithName: @"Simple box"];
-    CC3BoundingBox bBox;
-    bBox.minimum = cc3v(  0.0, 0.0, 0.0);
-    bBox.maximum = cc3v( 2.0, 2.0, 2.0);
-    [aNode populateAsSolidBox: bBox];
-    [aNode setLocation:cc3v(-2,0,0)];
-    aNode.material = [CC3Material material];
+
+    for(int i=0;i<5;i++){
+        for(int j=0;j<5;j++){
+            for(int l=0;l<5;l++){
+                aNode = [CC3BoxNode nodeWithName: @"Simple box"];
+                CC3BoundingBox bBox;
+                bBox.minimum = cc3v(  0.0+i*1.2, 0.0+j*1.2, 0.0+l*1.2);
+                bBox.maximum = cc3v( 1.0+i*1.2, 1.0+j*1.2, 1.0+l*1.2);
+                [aNode populateAsSolidBox: bBox];
+                [aNode setLocation:cc3v(-2,1,0)];
+                aNode.material = [CC3Material material];
+
+                CCActionInterval* partialRot = [CC3RotateBy actionWithDuration: 1.0
+                                                                      rotateBy: cc3v(0.0, 30.0, 0.0)];
+                [aNode runAction: [CCRepeatForever actionWithAction: partialRot]];
 
 
-	[self addChild: aNode];
-
+                [self addChild: aNode];
+            }
+        }
+    }
 	// Create OpenGL buffers for the vertex arrays to keep things fast and efficient, and to
 	// save memory, release the vertex content in main memory because it is now redundant.
 	[self createGLBuffers];
@@ -119,8 +129,8 @@
 	CC3MeshNode* helloTxt = (CC3MeshNode*)[self getNodeNamed: @"Hello"];
 	CCActionInterval* partialRot = [CC3RotateBy actionWithDuration: 1.0
 														  rotateBy: cc3v(0.0, 30.0, 0.0)];
-	[helloTxt runAction: [CCRepeatForever actionWithAction: partialRot]];
-	[aNode runAction: [CCRepeatForever actionWithAction: partialRot]];
+	[self runAction: [CCRepeatForever actionWithAction: partialRot]];
+//	[aNode runAction: [CCRepeatForever actionWithAction: partialRot]];
 
 	// To make things a bit more appealing, set up a repeating up/down cycle to
 	// change the color of the text from the original red to blue, and back again.
@@ -135,8 +145,8 @@
 														red: startColor.r
 													  green: startColor.g
 													   blue: startColor.b];
-	 CCActionInterval* tintCycle = [CCSequence actionOne: tintDown two: tintUp];
-	[helloTxt runAction: [CCRepeatForever actionWithAction: tintCycle]];
+//	 CCActionInterval* tintCycle = [CCSequence actionOne: tintDown two: tintUp];
+//	[helloTxt runAction: [CCRepeatForever actionWithAction: tintCycle]];
 }
 
 
