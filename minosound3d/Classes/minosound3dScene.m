@@ -13,6 +13,15 @@
 #import "CC3Camera.h"
 #import "CC3Light.h"
 #import "CC3ParametricMeshNodes.h"
+#import "Tile.h"
+
+#define COLUMN 3
+#define ROW 3
+#define DEPTH 3
+
+#define CELL_WIDTH 50
+#define CELL_HEIGHT 50
+#define CELL_DEPTH 50
 
 
 @implementation minosound3dScene
@@ -147,6 +156,12 @@
 													   blue: startColor.b];
 //	 CCActionInterval* tintCycle = [CCSequence actionOne: tintDown two: tintUp];
 //	[helloTxt runAction: [CCRepeatForever actionWithAction: tintCycle]];
+
+    [self genTiles];
+
+    [self initTiles];
+
+
 }
 
 
@@ -239,6 +254,152 @@
  * For more info, read the notes of this method on CC3Scene.
  */
 -(void) nodeSelected: (CC3Node*) aNode byTouchEvent: (uint) touchType at: (CGPoint) touchPoint {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-(void) genTiles{
+    self.tileArray = [NSMutableArray array];
+    for(int z=0;z<DEPTH;z++){
+        for(int y=0;y<COLUMN;y++){
+            for(int x=0;x<ROW;x++){
+                [self initTileSize:CELL_WIDTH :CELL_HEIGHT :CELL_DEPTH X:x Y:y Z:z];
+            }
+        }
+    }
+}
+
+-(void) initTiles{
+    for(int z=0;z<DEPTH;z++){
+        for(int y=0;y<COLUMN;y++){
+            for(int x=0;x<ROW;x++){
+                Tile* tile = [self getTileByX:x Y:y Z:z];
+                tile.beforeTile = nil;
+                tile.isSearched = NO;
+                tile.isShortcut = NO;
+                tile.isMarked = NO;
+                tile.freq = 0;
+            }
+        }
+    }
+
+    Tile* tile = self.tileArray[0];
+    tile.beforeTile = nil;
+    tile.isSearched = YES;
+    tile.isShortcut = YES;
+    tile.isMarked = YES;
+    tile.freq = 0;
+    [self scan:tile];
+}
+
+
+-(Tile*)getTileByX:(NSInteger)x Y:(NSInteger)y Z:(NSInteger)z{
+    if(x<0 || y <0 || z <0){
+        return nil;
+    }
+    if(x>= ROW || y >= COLUMN || z >= DEPTH){
+        return nil;
+    }
+    return self.tileArray[z*ROW*COLUMN + y*ROW + x];
+}
+
+-(BOOL) checkX:(NSInteger)x Y:(NSInteger)y Z:(NSInteger)z{
+    if(x<0 || y<0 || z<0){
+        return NO;
+    }
+    if(x>=ROW || y >= COLUMN || z >= DEPTH){
+        return NO;
+    }
+    Tile* tile = [self getTileByX:x Y:y Z:z];
+    if(tile.isSearched){
+        return NO;
+    }
+    return YES;
+}
+
+-(NSMutableArray*)surroundTiles:(Tile *)tile{
+    NSMutableArray* mArray = [NSMutableArray array];
+    if([self checkX:tile.x Y:tile.y-1 Z:tile.z]){
+        [mArray addObject:[self getTileByX:tile.x Y:tile.y-1 Z:tile.z]];
+    }
+    if([self checkX:tile.x+1 Y:tile.y Z:tile.z]){
+        [mArray addObject:[self getTileByX:tile.x+1 Y:tile.y Z:tile.z]];
+    }
+    if([self checkX:tile.x Y:tile.y+1 Z:tile.z]){
+        [mArray addObject:[self getTileByX:tile.x Y:tile.y+1 Z:tile.z]];
+    }
+    if([self checkX:tile.x-1 Y:tile.y Z:tile.z]){
+        [mArray addObject:[self getTileByX:tile.x-1 Y:tile.y Z:tile.z]];
+    }
+    if([self checkX:tile.x Y:tile.y Z:tile.z+1]){
+        [mArray addObject:[self getTileByX:tile.x Y:tile.y Z:tile.z+1]];
+    }
+    if([self checkX:tile.x Y:tile.y Z:tile.z-1]){
+        [mArray addObject:[self getTileByX:tile.x Y:tile.y Z:tile.z-1]];
+    }
+    return mArray;
+}
+
+-(NSInteger)randomGet:(NSMutableArray*)array{
+    if(array ==nil || [array count] == 0){
+        return -1;
+    }
+    return arc4random() % [array count];
+}
+
+-(Tile*)choiceTile:(Tile *)tile{
+    NSMutableArray* tiles = [self surroundTiles:tile];
+    if([tiles count] > 0){
+        int index = [self randomGet:tiles];
+        Tile* choice = tiles[index];
+        choice.beforeTile = tile;
+        choice.isSearched = YES;
+        return choice;
+    }
+    return [self choiceTile:tile.beforeTile];
+}
+
+-(void) scan:(Tile*)tile{
+    NSInteger count = 0;
+    for(int i=0;i<[self.tileArray count];i++){
+        Tile* tile = self.tileArray[i];
+        if(tile.isSearched){
+            NSLog(@"tile x:%d y:%d z:%d beforex:%d beforey:%d beforez:%d",tile.x,tile.y,tile.z,tile.beforeTile.x,tile.beforeTile.y,tile.beforeTile.z);
+            count++;
+        }
+    }
+    if(count >= ROW*COLUMN*DEPTH){
+        return;
+    }else{
+        return [self scan:[self choiceTile:tile]];
+    }
+}
+
+-(void) initTileSize:(NSInteger)width :(NSInteger)height :(NSInteger)depth X:(NSInteger)x Y:(NSInteger)y Z:(NSInteger)z{
+    Tile *tile = [[Tile alloc] init];
+    tile.x = x;
+    tile.y = y;
+    tile.z = z;
+    [self.tileArray addObject:tile];
+}
+
+
 
 @end
 

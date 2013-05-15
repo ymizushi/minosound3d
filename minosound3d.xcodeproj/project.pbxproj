@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4ED3E3FE1743A487006B547F /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED3E3FD1743A487006B547F /* Tile.m */; };
 		D14043E2174291C40062F3D5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D14043E1174291C40062F3D5 /* QuartzCore.framework */; };
 		D14043E4174291C40062F3D5 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D14043E3174291C40062F3D5 /* OpenGLES.framework */; };
 		D14043E6174291C40062F3D5 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D14043E5174291C40062F3D5 /* OpenAL.framework */; };
@@ -276,6 +277,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4ED3E3FC1743A487006B547F /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
+		4ED3E3FD1743A487006B547F /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
 		D14043DE174291C40062F3D5 /* minosound3d.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = minosound3d.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D14043E1174291C40062F3D5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D14043E3174291C40062F3D5 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1748,6 +1751,8 @@
 				D1404731174291CD0062F3D5 /* minosound3dLayer.m */,
 				D1404733174291CD0062F3D5 /* minosound3dScene.h */,
 				D1404734174291CD0062F3D5 /* minosound3dScene.m */,
+				4ED3E3FC1743A487006B547F /* Tile.h */,
+				4ED3E3FD1743A487006B547F /* Tile.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2070,6 +2075,7 @@
 				D140472F174291CD0062F3D5 /* minosound3dAppDelegate.m in Sources */,
 				D1404732174291CD0062F3D5 /* minosound3dLayer.m in Sources */,
 				D1404735174291CD0062F3D5 /* minosound3dScene.m in Sources */,
+				4ED3E3FE1743A487006B547F /* Tile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2198,6 +2204,7 @@
 				D140473C174291CD0062F3D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

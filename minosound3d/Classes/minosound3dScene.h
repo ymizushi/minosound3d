@@ -12,5 +12,6 @@
 /** A sample application-specific CC3Scene subclass.*/
 @interface minosound3dScene : CC3Scene {
 }
+@property (nonatomic, retain) NSMutableArray *tileArray;
 
 @end
