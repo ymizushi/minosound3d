@@ -91,8 +91,27 @@
         if(tile.beforeTile){
             aNode = [CC3BoxNode nodeWithName: @"Simple box"];
             CC3BoundingBox bBox;
-            bBox.minimum = cc3v(  0.0+tile.beforeTile.x *2, 0.0+tile.beforeTile.y*2, 0.0+tile.beforeTile.z*2);
-            bBox.maximum = cc3v( 1.0+tile.x*2, 1.0+tile.y*2, 1.0+tile.z*2);
+
+            if(tile.beforeTile == [self getTileByX:tile.x-1 Y:tile.y Z:tile.z]){
+                bBox.minimum = cc3v( 0.0+tile.x*2-1.0,     0.0+tile.y*2,     0.0+tile.z*2);
+                bBox.maximum = cc3v( 1.0+tile.x*2,         1.0+tile.y*2,     1.0+tile.z*2);
+            }else if(tile.beforeTile == [self getTileByX:tile.x Y:tile.y+1 Z:tile.z]){
+                bBox.minimum = cc3v( 0.0+tile.x*2,         0.0+tile.y*2,     0.0+tile.z*2);
+                bBox.maximum = cc3v( 1.0+tile.x*2,         1.0+tile.y*2+1.0, 1.0+tile.z*2);
+            }else if(tile.beforeTile == [self getTileByX:tile.x+1 Y:tile.y Z:tile.z]){
+                bBox.minimum = cc3v( 0.0+tile.x*2,         0.0+tile.y*2,     0.0+tile.z*2);
+                bBox.maximum = cc3v( 1.0+tile.x*2+1.0,     1.0+tile.y*2,     1.0+tile.z*2);
+            }else if(tile.beforeTile == [self getTileByX:tile.x Y:tile.y-1 Z:tile.z]){
+                bBox.minimum = cc3v( 0.0+tile.x*2,         0.0+tile.y*2-1.0, 0.0+tile.z*2);
+                bBox.maximum = cc3v( 1.0+tile.x*2,         1.0+tile.y*2,     1.0+tile.z*2);
+            }else if(tile.beforeTile == [self getTileByX:tile.x Y:tile.y Z:tile.z+1]){
+                bBox.minimum = cc3v( 0.0+tile.x*2,         0.0+tile.y*2,     0.0+tile.z*2);
+                bBox.maximum = cc3v( 1.0+tile.x*2,         1.0+tile.y*2,     1.0+tile.z*2+1.0);
+            }else if(tile.beforeTile == [self getTileByX:tile.x Y:tile.y Z:tile.z-1]){
+                bBox.minimum = cc3v( 0.0+tile.x*2,         0.0+tile.y*2,     0.0+tile.z*2);
+                bBox.maximum = cc3v( 1.0+tile.x*2,         1.0+tile.y*2,     1.0+tile.z*2-1.0);
+            }
+
             [aNode populateAsSolidBox: bBox];
             [aNode setLocation:cc3v(-2,1,0)];
             aNode.material = [CC3Material material];
@@ -101,6 +120,101 @@
             [self addChild: aNode];
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+//    CC3VertexArray *cc3VertexArrayMesh = [CC3VertexArray :@"VertexArrayMesh"];
+
+//    cc3VertexArrayMesh.shouldInterleaveVertices = YES;
+
+    // Prepare the vertex content and allocate space for vertices and indices.
+//    [cc3VertexArrayMesh ensureVertexContent];
+//
+//    cc3VertexArrayMesh.allocatedVertexCapacity      = 4;
+//
+//    [cc3VertexArrayMesh setExpectsVerticallyFlippedTextures:NO];
+//    [cc3VertexArrayMesh setDrawingMode:GL_TRIANGLE_STRIP];
+//
+//    // set location
+//    [cc3VertexArrayMesh setVertexLocation:CC3VectorMake(-1,  1, 0) at:0];
+//    [cc3VertexArrayMesh setVertexLocation:CC3VectorMake(-1, -1, 0) at:1];
+//    [cc3VertexArrayMesh setVertexLocation:CC3VectorMake( 1,  1, 0) at:2];
+//    [cc3VertexArrayMesh setVertexLocation:CC3VectorMake( 1, -1, 0) at:3];
+//
+//    // tex
+//    [cc3VertexArrayMesh setVertexTexCoord2F: cc3tc(0, 1) at:0];
+//    [cc3VertexArrayMesh setVertexTexCoord2F: cc3tc(0, 0) at:1];
+//    [cc3VertexArrayMesh setVertexTexCoord2F: cc3tc(1, 1) at:2];
+//    [cc3VertexArrayMesh setVertexTexCoord2F: cc3tc(1, 0) at:3];
+//
+//    // normals
+//    CC3Face cc3Face = CC3FaceMake(CC3VectorMake(-1,  1, 0),
+//                                  CC3VectorMake(-1, -1, 0),
+//                                  CC3VectorMake( 1,  1, 0));
+//
+//    // Derive the normal. All vertices on the triangle will have the same normal.
+//    CC3Vector vtxNormal = CC3FaceNormal(cc3Face);
+//
+//    // set normal
+//    [cc3VertexArrayMesh setVertexNormal: vtxNormal at:0];
+//    [cc3VertexArrayMesh setVertexNormal: vtxNormal at:1];
+//    [cc3VertexArrayMesh setVertexNormal: vtxNormal at:2];
+//    [cc3VertexArrayMesh setVertexNormal: vtxNormal at:3];
+//
+//    // set index
+//    [cc3VertexArrayMesh setVertexIndex:0 at:0];
+//    [cc3VertexArrayMesh setVertexIndex:1 at:1];
+//    [cc3VertexArrayMesh setVertexIndex:2 at:2];
+//    [cc3VertexArrayMesh setVertexIndex:3 at:3];
+//
+//    CC3MeshNode *cc3MeshNode = [CC3MeshNode nodeWithName:@"MeshNode"];
+//    cc3MeshNode.mesh = cc3VertexArrayMesh;
+//    cc3MeshNode.material = [CC3Material shiny];
+//
+//    cc3MeshNode.texture = [CC3Texture textureFromFile: @"Default.png"];
+//
+//    cc3MeshNode.uniformScale = 1;
+//
+//    [cc3MeshNode createGLBuffers];
+//    [cc3MeshNode releaseRedundantData];
+//
+//    [self addChild:cc3MeshNode];
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	// Create OpenGL buffers for the vertex arrays to keep things fast and efficient, and to
 	// save memory, release the vertex content in main memory because it is now redundant.
