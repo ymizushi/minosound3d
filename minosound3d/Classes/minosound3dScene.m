@@ -74,18 +74,18 @@
 
     CC3MeshNode* aNode;
 
-    for(Tile *tile in self.tileArray){
-        aNode = [CC3BoxNode nodeWithName: @"Simple box"];
-        CC3BoundingBox bBox;
-        bBox.minimum = cc3v(  0.0+tile.x*2, 0.0+tile.y*2, 0.0+tile.z*2);
-        bBox.maximum = cc3v( 1.0+tile.x*2, 1.0+tile.y*2, 1.0+tile.z*2);
-        [aNode populateAsSolidBox: bBox];
-        [aNode setLocation:cc3v(-2,1,0)];
-        aNode.material = [CC3Material material];
-        CCActionInterval* partialRot = [CC3RotateBy actionWithDuration: 1.0 rotateBy:cc3v(0.0, 30.0, 0.0)];
-        [aNode runAction: [CCRepeatForever actionWithAction: partialRot]];
-        [self addChild: aNode];
-    }
+//    for(Tile *tile in self.tileArray){
+//        aNode = [CC3BoxNode nodeWithName: @"Simple box"];
+//        CC3BoundingBox bBox;
+//        bBox.minimum = cc3v(  0.0+tile.x*2, 0.0+tile.y*2, 0.0+tile.z*2);
+//        bBox.maximum = cc3v( 1.0+tile.x*2, 1.0+tile.y*2, 1.0+tile.z*2);
+//        [aNode populateAsSolidBox: bBox];
+//        [aNode setLocation:cc3v(-2,1,0)];
+//        aNode.material = [CC3Material material];
+//        CCActionInterval* partialRot = [CC3RotateBy actionWithDuration: 1.0 rotateBy:cc3v(0.0, 30.0, 0.0)];
+//        [aNode runAction: [CCRepeatForever actionWithAction: partialRot]];
+//        [self addChild: aNode];
+//    }
 
     for(Tile *tile in self.tileArray){
         if(tile.beforeTile){
