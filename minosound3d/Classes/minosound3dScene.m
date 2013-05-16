@@ -77,15 +77,31 @@
     for(Tile *tile in self.tileArray){
         aNode = [CC3BoxNode nodeWithName: @"Simple box"];
         CC3BoundingBox bBox;
-        bBox.minimum = cc3v(  0.0+tile.x*1.2, 0.0+tile.y*1.2, 0.0+tile.z*1.2);
-        bBox.maximum = cc3v( 1.0+tile.x*1.2, 1.0+tile.y*1.2, 1.0+tile.z*1.2);
+        bBox.minimum = cc3v(  0.0+tile.x*2, 0.0+tile.y*2, 0.0+tile.z*2);
+        bBox.maximum = cc3v( 1.0+tile.x*2, 1.0+tile.y*2, 1.0+tile.z*2);
         [aNode populateAsSolidBox: bBox];
         [aNode setLocation:cc3v(-2,1,0)];
         aNode.material = [CC3Material material];
-        CCActionInterval* partialRot = [CC3RotateBy actionWithDuration: 1.0 rotateBy:cc3v(0.0, 30.0, 0.0)];                                        
+        CCActionInterval* partialRot = [CC3RotateBy actionWithDuration: 1.0 rotateBy:cc3v(0.0, 30.0, 0.0)];
         [aNode runAction: [CCRepeatForever actionWithAction: partialRot]];
         [self addChild: aNode];
     }
+
+    for(Tile *tile in self.tileArray){
+        if(tile.beforeTile){
+            aNode = [CC3BoxNode nodeWithName: @"Simple box"];
+            CC3BoundingBox bBox;
+            bBox.minimum = cc3v(  0.0+tile.beforeTile.x *2, 0.0+tile.beforeTile.y*2, 0.0+tile.beforeTile.z*2);
+            bBox.maximum = cc3v( 1.0+tile.x*2, 1.0+tile.y*2, 1.0+tile.z*2);
+            [aNode populateAsSolidBox: bBox];
+            [aNode setLocation:cc3v(-2,1,0)];
+            aNode.material = [CC3Material material];
+            CCActionInterval* partialRot = [CC3RotateBy actionWithDuration: 1.0 rotateBy:cc3v(0.0, 30.0, 0.0)];
+            [aNode runAction: [CCRepeatForever actionWithAction: partialRot]];
+            [self addChild: aNode];
+        }
+    }
+
 	// Create OpenGL buffers for the vertex arrays to keep things fast and efficient, and to
 	// save memory, release the vertex content in main memory because it is now redundant.
 	[self createGLBuffers];
@@ -394,6 +410,26 @@
 }
 
 
-
+//-(void)draw{
+//    if(self.tileArray){
+//        for(Tile* tile in self.tileArray){
+//            if(tile){
+//                CGPoint p1,p2;
+//                p1=CGPointMake((float)tile.beforeTile.x*CELL_WIDTH+OFFSET_X,(float)tile.beforeTile.y*CELL_HEIGHT+OFFSET_Y);
+//                p2=CGPointMake((float)tile.x*CELL_WIDTH+OFFSET_X, (float)tile.y*CELL_HEIGHT+OFFSET_Y);
+//                if(tile.isShortcut){
+//                    ccDrawColor4F(1.0f, 0.0f, 0.0f, 1.0f);
+//                }else if(tile.isMarked){
+//                    ccDrawColor4F((cos(self.color)+1)/4, (sin(self.color)+1)/2, 0.0f, 1.0f);
+//                }else{
+//                    ccDrawColor4F(0.0f, 0.0f, 0.5f, 1.0f);
+//                }
+//                glLineWidth(CELL_WIDTH);
+//                ccDrawLine(p1, p2);
+//            }
+//        }
+//    }
+//}
+//
 @end
 
