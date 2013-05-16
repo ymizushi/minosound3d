@@ -92,6 +92,10 @@
             aNode = [CC3BoxNode nodeWithName: @"Simple box"];
             CC3BoundingBox bBox;
 
+            if(tile.beforeTile == nil){
+                bBox.minimum = cc3v( 0.0+0*2-1.0,     0.0+0*2,     0.0+0*2);
+                bBox.maximum = cc3v( 1.0+0*2,         1.0+0*2,     1.0+0*2);
+            }
             if(tile.beforeTile == [self getTileByX:tile.x-1 Y:tile.y Z:tile.z]){
                 bBox.minimum = cc3v( 0.0+tile.x*2-1.0,     0.0+tile.y*2,     0.0+tile.z*2);
                 bBox.maximum = cc3v( 1.0+tile.x*2,         1.0+tile.y*2,     1.0+tile.z*2);
@@ -108,8 +112,8 @@
                 bBox.minimum = cc3v( 0.0+tile.x*2,         0.0+tile.y*2,     0.0+tile.z*2);
                 bBox.maximum = cc3v( 1.0+tile.x*2,         1.0+tile.y*2,     1.0+tile.z*2+1.0);
             }else if(tile.beforeTile == [self getTileByX:tile.x Y:tile.y Z:tile.z-1]){
-                bBox.minimum = cc3v( 0.0+tile.x*2,         0.0+tile.y*2,     0.0+tile.z*2);
-                bBox.maximum = cc3v( 1.0+tile.x*2,         1.0+tile.y*2,     1.0+tile.z*2-1.0);
+                bBox.minimum = cc3v( 0.0+tile.x*2,         0.0+tile.y*2,     0.0+tile.z*2-1.0);
+                bBox.maximum = cc3v( 1.0+tile.x*2,         1.0+tile.y*2,     1.0+tile.z*2);
             }
 
             [aNode populateAsSolidBox: bBox];
