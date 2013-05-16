@@ -74,25 +74,17 @@
 
     CC3MeshNode* aNode;
 
-    for(int i=0;i<DEPTH;i++){
-        for(int j=0;j<COLUMN;j++){
-            for(int l=0;l<ROW;l++){
-                aNode = [CC3BoxNode nodeWithName: @"Simple box"];
-                CC3BoundingBox bBox;
-                bBox.minimum = cc3v(  0.0+i*1.2, 0.0+j*1.2, 0.0+l*1.2);
-                bBox.maximum = cc3v( 1.0+i*1.2, 1.0+j*1.2, 1.0+l*1.2);
-                [aNode populateAsSolidBox: bBox];
-                [aNode setLocation:cc3v(-2,1,0)];
-                aNode.material = [CC3Material material];
-
-                CCActionInterval* partialRot = [CC3RotateBy actionWithDuration: 1.0
-                                                                      rotateBy: cc3v(0.0, 30.0, 0.0)];
-                [aNode runAction: [CCRepeatForever actionWithAction: partialRot]];
-
-
-                [self addChild: aNode];
-            }
-        }
+    for(Tile *tile in self.tileArray){
+        aNode = [CC3BoxNode nodeWithName: @"Simple box"];
+        CC3BoundingBox bBox;
+        bBox.minimum = cc3v(  0.0+tile.x*1.2, 0.0+tile.y*1.2, 0.0+tile.z*1.2);
+        bBox.maximum = cc3v( 1.0+tile.x*1.2, 1.0+tile.y*1.2, 1.0+tile.z*1.2);
+        [aNode populateAsSolidBox: bBox];
+        [aNode setLocation:cc3v(-2,1,0)];
+        aNode.material = [CC3Material material];
+        CCActionInterval* partialRot = [CC3RotateBy actionWithDuration: 1.0 rotateBy:cc3v(0.0, 30.0, 0.0)];                                        
+        [aNode runAction: [CCRepeatForever actionWithAction: partialRot]];
+        [self addChild: aNode];
     }
 	// Create OpenGL buffers for the vertex arrays to keep things fast and efficient, and to
 	// save memory, release the vertex content in main memory because it is now redundant.
