@@ -1,7 +1,7 @@
 minosound3d
 ================================
 
-This repository is under construction.
+The 3D puzzle game based on minosound.
 
 ## Screenshot
 ![screenshot](https://github.com/ymizushi/minosound3d/blob/master/screenshot.png?raw=true)
